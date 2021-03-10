@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_10_181532) do
+ActiveRecord::Schema.define(version: 2021_03_10_194355) do
+
+  create_table "bingo_boards", force: :cascade do |t|
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "bingo_hall_id"
+    t.index ["bingo_hall_id"], name: "index_bingo_boards_on_bingo_hall_id"
+  end
 
   create_table "bingo_halls", force: :cascade do |t|
     t.string "name"
@@ -18,4 +25,14 @@ ActiveRecord::Schema.define(version: 2021_03_10_181532) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "players", force: :cascade do |t|
+    t.string "name"
+    t.integer "bingo_board_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["bingo_board_id"], name: "index_players_on_bingo_board_id"
+  end
+
+  add_foreign_key "bingo_boards", "bingo_halls"
+  add_foreign_key "players", "bingo_boards"
 end

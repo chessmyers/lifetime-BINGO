@@ -8,6 +8,8 @@ class BingoHallsController < ApplicationController
 
   # GET /bingo_halls/1 or /bingo_halls/1.json
   def show
+    @bingo_hall = BingoHall.find(params[:id])
+    @bingo_boards = @bingo_hall.bingo_boards
   end
 
   # GET /bingo_halls/new
@@ -21,10 +23,12 @@ class BingoHallsController < ApplicationController
 
   # POST /bingo_halls or /bingo_halls.json
   def create
-    @bingo_hall = BingoHall.new(bingo_hall_params)
+    @bingo_hall = BingoHall.new(name: bingo_hall_params[:name])
 
     respond_to do |format|
       if @bingo_hall.save
+        bingo_board = @bingo_hall.bingo_boards.create
+        Player.create(name: bingo_hall_params[:player_name], bingo_board: bingo_board)
         format.html { redirect_to @bingo_hall, notice: "Bingo hall was successfully created." }
         format.json { render :show, status: :created, location: @bingo_hall }
       else
@@ -64,6 +68,6 @@ class BingoHallsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def bingo_hall_params
-      params.require(:bingo_hall).permit(:name)
+      params.require(:bingo_hall).permit(:name, :player_name)
     end
 end
