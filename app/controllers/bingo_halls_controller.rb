@@ -10,6 +10,14 @@ class BingoHallsController < ApplicationController
   def show
     @bingo_hall = BingoHall.find(params[:id])
     @bingo_boards = @bingo_hall.bingo_boards
+
+    if (session[:player_id].present?)
+      @current_bingo_board = Player.find(session[:player_id]).bingo_board
+    else
+      @current_bingo_board = @bingo_hall.bingo_boards.create
+      player = Player.create(name: 'Anonymous', bingo_board: @current_bingo_board)
+      session[:player_id] = player.id
+    end
   end
 
   # GET /bingo_halls/new
@@ -28,7 +36,8 @@ class BingoHallsController < ApplicationController
     respond_to do |format|
       if @bingo_hall.save
         bingo_board = @bingo_hall.bingo_boards.create
-        Player.create(name: bingo_hall_params[:player_name], bingo_board: bingo_board)
+        player = Player.create(name: bingo_hall_params[:player_name], bingo_board: bingo_board)
+        session[:player_id] = player.id
         format.html { redirect_to @bingo_hall, notice: "Bingo hall was successfully created." }
         format.json { render :show, status: :created, location: @bingo_hall }
       else
