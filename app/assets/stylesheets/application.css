@@ -13,3 +13,36 @@
  *= require_tree .
  *= require_self
  */
+
+
+h1 {
+  font-family: 'Courgette', cursive;
+  text-align: center;
+  font-size: 4em;
+  margin: 1%;
+}
+
+.bingoboard {
+  background-color: lightblue;
+  display: inline-block;
+  width: 19em;
+  height: 18.6em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  margin: 1em;
+}
+
+.button-square {
+  background-color: snow;
+  font-size: 1em;
+  width: 6em;
+  height: 6em;
+  margin: 0.1em;
+}
+
+.button-control{
+  background-color: lightblue;
+  font-size: 0.8em;
+  padding: 1em;
+  border-radius: 1em;
+}

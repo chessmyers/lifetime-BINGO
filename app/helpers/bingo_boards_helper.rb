@@ -1,0 +1,2 @@
+module BingoBoardsHelper
+end

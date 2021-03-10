@@ -1,9 +1,27 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @bingo_hall.name %>
+  <strong>Name:</strong><%= @bingo_hall.name %>
 </p>
+<p>
+  <strong>Bingo hall share link: </strong> <%= link_to bingo_hall_path(id: @bingo_hall.id) %>
+</p>
+<p>
+  <%= @bingo_boards.count %> bingo board present
+</p>
+
+<% @bingo_boards.each do |bingo_board| %>
+  <p>
+    I REPRESENT <%= bingo_board.player.name %>'s BINGO BOARD: <%= bingo_board.id %>
+    <%= render 'bingo_boards/board', bingo_board: bingo_board %>
+  </p>
+<% end %>
+
+<p>
+  I represent your bingo board!
+  <%= render 'bingo_boards/board', bingo_board: @bingo_boards.first %>
+</p>
+
 
 <%= link_to 'Edit', edit_bingo_hall_path(@bingo_hall) %> |
 <%= link_to 'Back', bingo_halls_path %>
