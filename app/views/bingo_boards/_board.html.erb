@@ -1,3 +1,4 @@
 <div class="bingoboard">
   HELLLLLLOOOOO <%= bingo_board.player.name %>
+  <%= button_to 'click me', bingo_board_path(id: bingo_board.id), method: :patch %>
 </div>

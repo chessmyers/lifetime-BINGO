@@ -1,7 +1,8 @@
 class BingoBoardsController < ApplicationController
 
-  def click(board_id, square_id)
-    board = BingoBoard.find board_id
-    ActionCable.server.broadcast(board.bingo_hall, { board_id: board_id, square_id: square_id })
+  def update
+    board = BingoBoard.find(params[:id])
+    puts "****** HELLO FROM #{board.player.name}"
+ActionCable.server.broadcast(board.bingo_hall, { board_id: board.id})
   end
 end
