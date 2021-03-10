@@ -1,0 +1,2 @@
+class BingoHall < ApplicationRecord
+end

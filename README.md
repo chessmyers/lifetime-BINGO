@@ -1,24 +1,27 @@
-# README
+# Lifetime BINGO!
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+## Game Creator flow --> Go to game creation page --> Input name for hall --> Creates a new BingoHall
 
-* Ruby version
+## Player Flow:
+    - Player enters game --> Bingo board generated --> Squares generated to fill it in
 
-* System dependencies
+## Modles
 
-* Configuration
+BingoHall -- scaffold
+- has_many players
+- has_one creator
 
-* Database creation
+name --> string
 
-* Database initialization
 
-* How to run the test suite
+BingoBoard -- resources
+- has_many BingoSquare
+- has_one player
 
-* Services (job queues, cache servers, search engines, etc.)
+BingoSquare -- model
+ - belongs_to BingoBoard
+ - 
 
-* Deployment instructions
-
-* ...
+checked? -- boolean
+text -- string
