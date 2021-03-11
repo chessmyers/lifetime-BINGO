@@ -7,4 +7,8 @@ class GameChannel < ApplicationCable::Channel
   def unsubscribed
     # Any cleanup needed when channel is unsubscribed
   end
+
+  # def receive(data)
+  #   ActionCable.server.broadcast("#{params[:bingo_hall_id]}", data)
+  # end
 end
