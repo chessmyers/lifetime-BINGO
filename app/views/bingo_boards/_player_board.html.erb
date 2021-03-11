@@ -1,9 +1,6 @@
 <%= bingo_board.player.name %>'s board
 <div class="bingoboard">
   <% bingo_board.squares.each do |square| %>
-    <p id=square.id>
-    <%= square.text %>
-      <%= square.id %>
-    </p>
-<% end %>
+      <%= button_to square.text, square_path(id: square.id), method: :patch, id: square.id %>
+  <% end %>
 </div>

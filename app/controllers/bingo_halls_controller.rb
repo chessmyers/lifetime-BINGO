@@ -10,13 +10,15 @@ class BingoHallsController < ApplicationController
   def show
     @bingo_hall = BingoHall.find(params[:id])
     @bingo_boards = @bingo_hall.bingo_boards
+    player_ids = @bingo_boards.pluck(:player_id)
 
-    if (session[:player_id].present?)
-      @current_bingo_board = Player.find(session[:player_id]).bingo_board
+    if session[:player_id].present? && player_ids.include?(session[:player_id])
+      @current_player = Player.find(session[:player_id])
+      @current_bingo_board = @current_player.bingo_board
     else
       @current_bingo_board = @bingo_hall.bingo_boards.create
-      player = Player.create(name: 'Anonymous', bingo_board: @current_bingo_board)
-      session[:player_id] = player.id
+      @current_player = Player.create(name: 'Anonymous', bingo_board: @current_bingo_board)
+      session[:player_id] = @current_player.id
     end
   end
 
