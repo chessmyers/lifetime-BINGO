@@ -10,6 +10,13 @@ class BingoHallsController < ApplicationController
   def show
     @bingo_hall = BingoHall.find(params[:id])
     @bingo_boards = @bingo_hall.bingo_boards
+    @current_player = Player.find_by(id: cookies[:player_id])
+    if !@current_player.present?
+      redirect_to new_player_path(bingo_hall_id: @bingo_hall.id)
+    else
+      @other_players_bingo_boards = @bingo_boards.where.not(id: @current_player.bingo_board.id)
+    end
+
   end
 
   # GET /bingo_halls/new
@@ -24,13 +31,11 @@ class BingoHallsController < ApplicationController
   # POST /bingo_halls or /bingo_halls.json
   def create
     @bingo_hall = BingoHall.new(name: bingo_hall_params[:name])
-
     respond_to do |format|
       if @bingo_hall.save
-        bingo_board = @bingo_hall.bingo_boards.create
-        Player.create(name: bingo_hall_params[:player_name], bingo_board: bingo_board)
+        make_player_and_bingo_board(bingo_hall)
         format.html { redirect_to @bingo_hall, notice: "Bingo hall was successfully created." }
-        format.json { render :show, status: :created, location: @bingo_hall }
+        format.json { render :show, status: :created, location: @bingo_hall, player_id: player.id }
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @bingo_hall.errors, status: :unprocessable_entity }
@@ -70,4 +75,10 @@ class BingoHallsController < ApplicationController
     def bingo_hall_params
       params.require(:bingo_hall).permit(:name, :player_name)
     end
+
+  def make_player_and_bingo_board(bingo_hall)
+    bingo_board = bingo_hall.bingo_boards.create
+    player = Player.create(name: bingo_hall_params[:player_name], bingo_board: bingo_board)
+    cookies[:player_id] = player.id
+  end
 end
