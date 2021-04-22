@@ -91,7 +91,7 @@ class BingoHallsController < ApplicationController
 
     [0..9].each do |x|
       phrase = available_phrases[rand(available_phrases.length)]
-      bingo_board.squares.create(position: x, phrase: phrase, value: x == 4 )
+      Square.create(position: x, phrase: phrase, value: x == 4, bingo_board_id: bingo_board.id)
       available_phrases = available_phrases - phrase
     end
     end

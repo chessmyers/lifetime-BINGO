@@ -1,0 +1,7 @@
+<%= form_for @player do |f| %>
+  Your Name: <%= f.text_field :name %><br />
+  <%= f.hidden_field :bingo_hall_id, value: @bingo_hall_id %>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

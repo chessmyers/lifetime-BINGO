@@ -1,3 +1,5 @@
 class Player < ApplicationRecord
-  belongs_to :bingo_board, dependent: delete
+  def bingo_board
+    BingoBoard.where(player_id: id)
+  end
 end
