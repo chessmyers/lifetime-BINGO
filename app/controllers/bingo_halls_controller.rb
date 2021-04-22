@@ -1,6 +1,6 @@
 class BingoHallsController < ApplicationController
   before_action :set_bingo_hall, only: %i[ show edit update destroy ]
-
+  PHRASES = ['chihuahua', 'pitbull', 'mutt', 'beagle', 'great dane', 'black lab', 'golden retriever', 'malumut', 'brussles griffin', 'basenji'].freeze
   # GET /bingo_halls or /bingo_halls.json
   def index
     @bingo_halls = BingoHall.all
@@ -16,6 +16,7 @@ class BingoHallsController < ApplicationController
     else
       @other_players_bingo_boards = @bingo_boards.where.not(id: @current_player.bingo_board.id)
     end
+    BingoHallChannel.broadcast_to(@bingo_hall, @bingo_hall)
 
   end
 
@@ -33,7 +34,7 @@ class BingoHallsController < ApplicationController
     @bingo_hall = BingoHall.new(name: bingo_hall_params[:name])
     respond_to do |format|
       if @bingo_hall.save
-        make_player_and_bingo_board(bingo_hall)
+        make_player_and_bingo_board(@bingo_hall)
         format.html { redirect_to @bingo_hall, notice: "Bingo hall was successfully created." }
         format.json { render :show, status: :created, location: @bingo_hall, player_id: player.id }
       else
@@ -42,6 +43,8 @@ class BingoHallsController < ApplicationController
       end
     end
   end
+
+
 
   # PATCH/PUT /bingo_halls/1 or /bingo_halls/1.json
   def update
@@ -78,7 +81,18 @@ class BingoHallsController < ApplicationController
 
   def make_player_and_bingo_board(bingo_hall)
     bingo_board = bingo_hall.bingo_boards.create
+    make_squares(bingo_board)
     player = Player.create(name: bingo_hall_params[:player_name], bingo_board: bingo_board)
     cookies[:player_id] = player.id
   end
+
+  def make_squares(bingo_board)
+    available_phrases = PHRASES
+
+    [0..9].each do |x|
+      phrase = available_phrases[rand(available_phrases.length)]
+      bingo_board.squares.create(position: x, phrase: phrase, value: x == 4 )
+      available_phrases = available_phrases - phrase
+    end
+    end
 end

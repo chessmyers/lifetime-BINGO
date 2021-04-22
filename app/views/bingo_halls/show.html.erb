@@ -11,7 +11,7 @@
 
   <p>
     I represent your bingo board!
-    <%= render 'bingo_boards/board', bingo_board: @current_player.bingo_board %>
+    <%= render 'bingo_boards/board', squares: @current_player.bingo_board.squares %>
   </p>
 
   <p>
@@ -20,8 +20,8 @@
 
   <% @bingo_boards.where.not(id: @current_player.bingo_board.id).each do |bingo_board| %>
     <p>
-      I REPRESENT <%= bingo_board.player.name %>'s BINGO BOARD: <%= bingo_board.id %>
-      <%= render 'bingo_boards/board', bingo_board: bingo_board %>
+      <%= bingo_board.player.name %>
+      <%= render 'bingo_boards/board', squares: bingo_board.squares %>
     </p>
   <% end %>
 

@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_10_194355) do
+ActiveRecord::Schema.define(version: 2021_04_21_232805) do
 
   create_table "bingo_boards", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "bingo_hall_id"
+    t.integer "marked_squares"
     t.index ["bingo_hall_id"], name: "index_bingo_boards_on_bingo_hall_id"
   end
 
@@ -33,6 +34,16 @@ ActiveRecord::Schema.define(version: 2021_03_10_194355) do
     t.index ["bingo_board_id"], name: "index_players_on_bingo_board_id"
   end
 
+  create_table "squares", force: :cascade do |t|
+    t.string "phrase"
+    t.integer "bingo_board_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "position"
+    t.index ["bingo_board_id"], name: "index_squares_on_bingo_board_id"
+  end
+
   add_foreign_key "bingo_boards", "bingo_halls"
   add_foreign_key "players", "bingo_boards"
+  add_foreign_key "squares", "bingo_boards"
 end

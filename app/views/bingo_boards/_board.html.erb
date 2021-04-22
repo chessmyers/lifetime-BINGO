@@ -1,3 +1,14 @@
 <div class="bingoboard">
-  HELLLLLLOOOOO <%= bingo_board.player.name %>
+ <table>
+   <tr><td><%= squares.find_by(position: 0).phrase %></td>
+     <td><%= squares.find_by(position: 1).phrase %></td>
+     <td><%= squares.find_by(position: 2).phrase %></td></tr>
+   <tr><td><%= squares.find_by(position: 3).phrase %></td>
+     <td><%= squares.find_by(position: 4).phrase %></td>
+     <td><%= squares.find_by(position: 5).phrase %></td></tr>
+   <tr><td><%= squares.find_by(position: 6).phrase %></td>
+     <td><%= squares.find_by(position: 7).phrase %></td>
+     <td><%= squares.find_by(position: 8).phrase %></td></tr>
+ </table>
 </div>
+
