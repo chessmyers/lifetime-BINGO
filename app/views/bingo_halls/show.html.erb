@@ -10,7 +10,7 @@
 <% if @current_player.present? %>
 
   <p>
-    I represent your bingo board!
+    Your Bingo Board
     <%= render 'bingo_boards/board', squares: @current_player.bingo_board.squares %>
   </p>
 

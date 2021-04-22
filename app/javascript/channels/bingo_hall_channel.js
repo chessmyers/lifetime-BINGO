@@ -4,7 +4,7 @@ consumer.subscriptions.create("BingoHallChannel", {
   initialized() {
     this.update = this.update.bind(this)
   }
-})
+}),
   connected() {
     this.install()
     this.update()
